@@ -1,0 +1,26 @@
+//Master Code
+#include <Wire.h>
+ 
+char c;
+ 
+void setup()
+{
+  Wire.begin();  // Communication begin as Master
+  Serial.begin(9600);
+}
+ 
+void loop()
+{
+  Wire.requestFrom(1, 16);  //Slave 1 want to 16 bit data.
+  while(Wire.available()){
+    c = Wire.read();
+    Serial.print(c);
+  }
+  Serial.println();
+ 
+  Wire.beginTransmission(1);      // Slave 1 data send
+  Wire.write("www.elektrobot.net");  // string data send
+  Wire.endTransmission();
+ 
+  delay(500);
+}
