@@ -1,0 +1,8 @@
+void connectWifi()
+{
+  Serial.print("Connecting to "+*MY_SSID);// MY_SSID değişkeni bağlanacağın wifi adresi
+  WiFi.begin(MY_SSID, MY_PWD); // MY_PWD değişkeni bağlanacağın wifi şifresi
+  while (WiFi.status() != WL_CONNECTED) {
+  delay(1000);
+  Serial.print(".");
+  }
