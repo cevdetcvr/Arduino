@@ -1,0 +1,25 @@
+const int lm35Pin=A0; // Data Pin
+float lm35Deger; // Voltage Value
+float sicaklik; 
+void setup(){
+	
+	pinMode(lm35Pin,INPUT); 
+	Serial.begin(9600);
+ 
+}
+void loop(){
+
+ //LM32 SENSOR
+	lm35Deger=analogRead(lm35Pin); // 
+	lm35Deger=(lm35Deger/1023)*5000; // Math equations mV
+	sicaklik=lm35Deger/10,0; // Every Celsius each 10mV
+ 
+ //SERIAL MONITOR
+	Serial.print("sicaklik :");
+	Serial.print(sicaklik);
+	Serial.println("derece");
+	
+	delay(1000);
+ 
+ 
+}
