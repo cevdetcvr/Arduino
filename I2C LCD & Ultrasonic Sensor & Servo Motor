@@ -1,0 +1,57 @@
+#include<Servo.h>  // Servo Motor Library
+#include<LiquidCrystal_I2C.h> // LCD Library
+#include<Wire.h>
+ 
+int servo=3; // Servo Pin
+int servoDeger;
+
+int xPin=A0; // Joystick Pin
+
+int trigPin=4;  // HC-SR04 Pin
+int echoPin=5;
+
+int cm;
+int uDeger;
+int sclPin=A5; // I2C Pin for Arduino Uno
+int sdaPin=A4;
+ 
+LiquidCrystal_I2C lcd(0x27,16,2); // address of LCD and LCD size
+Servo myservo;
+ 
+ 
+void setup(){
+  myservo.attach(servo);
+  lcd.init(); // begin LCD
+  lcd.backlight(); // Background light
+ 
+  pinMode(trigPin,OUTPUT);
+  pinMode(echoPin,INPUT);
+ 
+  Serial.begin(9600);  //Serial communication begin
+ 
+}
+void loop(){
+ 
+ // HC-SR04
+  digitalWrite(trigPin,LOW); 
+  digitalWrite(trigPin,HIGH);
+  digitalWrite(trigPin,LOW);
+  uDeger=analogRead(echoPin);
+  cm=uDeger/29/2; //  Math equations for centimeter
+  
+ 
+ // Joystick 
+  Serial.print(analogRead(xPin)); 
+    Serial.print ("---"); 
+ 
+ //Servo Motor
+  servoDeger=analogRead(xPin); //
+  servoDeger=map(servoDeger,0,1023,0,180); // Analog Inputs plot
+  myservo.write(servoDeger);
+  delay(15);
+  
+  //I2C LCD
+  lcd.print(cm); 
+        lcd.clear(); 
+ 
+}
