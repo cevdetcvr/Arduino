@@ -1,0 +1,35 @@
+
+//Slave
+#include<Wire.h>
+int led1=13;
+int led2=12;
+void setup()
+{
+  pinMode(led1,OUTPUT);
+  pinMode(led2,OUTPUT);
+Wire.begin(1);
+Wire.onReceive(receiveEvent);
+Serial.begin(9600);
+}
+ 
+void loop()
+{
+delay(100);
+}
+ 
+void receiveEvent(int howMany)
+{
+ if( Wire.available()>0) // Haberleşmenin olup olmadıgını kontrol eder
+  {
+    char c = Wire.read(); 
+    Serial.print(c);         
+  
+  if(c == 'k'){digitalWrite(led1,HIGH);
+delay(1000);
+digitalWrite(led1,LOW);}
+  if(c == 'y'){digitalWrite(led2,HIGH);
+delay(1000);
+digitalWrite(led2,LOW);}
+}
+  
+}
