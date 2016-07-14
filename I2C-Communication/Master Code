@@ -1,26 +1,19 @@
+
 //Master Code
-#include <Wire.h>
- 
-char c;
+#include<Wire.h>
  
 void setup()
 {
-  Wire.begin();  // Communication begin as Master
+  Wire.begin();
   Serial.begin(9600);
 }
  
 void loop()
 {
-  Wire.requestFrom(1, 16);  //Slave 1 want to 16 bit data.
-  while(Wire.available()){
-    c = Wire.read();
-    Serial.print(c);
-  }
-  Serial.println();
- 
-  Wire.beginTransmission(1);      // Slave 1 data send
-  Wire.write("www.elektrobot.net");  // string data send
-  Wire.endTransmission();
- 
-  delay(500);
+Wire.beginTransmission(1); //master aygıtın veri gönderimini baslatır.parametre slave adresidir. 
+if(Serial.available()>0){  //Konsoldan karakter girdiğimiz bölüm
+char c = Serial.read();
+Wire.write(c);
+}
+Wire.endTransmission(); // master aygıtın veri gönderimini durdurur.
 }
