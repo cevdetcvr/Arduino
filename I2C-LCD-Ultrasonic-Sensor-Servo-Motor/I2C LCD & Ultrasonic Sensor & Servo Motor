@@ -1,0 +1,58 @@
+#include<Servo.h>
+#include<LiquidCrystal_I2C.h> // İnclude etmemiz gerek lcd kütüphanesi
+#include<Wire.h>
+ 
+int servo=3;
+int servoDeger;
+int xPin=A0;
+int trigPin=4;
+int echoPin=5;
+int cm;
+int uDeger;
+int sclPin=A5; // Arduino Serial lcd pinleri
+int sdaPin=A4;
+ 
+LiquidCrystal_I2C lcd(0x27,16,2); // lcd nin adresini ve kaca kac lcd olduguu tanımladık.
+Servo myservo;
+ 
+ 
+void setup(){
+	myservo.attach(servo);
+	lcd.init(); // lcd yi başlatır.
+	lcd.backlight(); // Arkaplan ışıgını aktif eder
+ 
+	pinMode(trigPin,OUTPUT);
+	pinMode(echoPin,INPUT);
+ 
+	Serial.begin(9600);
+ 
+ 
+ 
+ 
+}
+void loop(){
+ 
+	digitalWrite(trigPin,LOW);
+	digitalWrite(trigPin,HIGH);
+	digitalWrite(trigPin,LOW);
+	uDeger=analogRead(echoPin);
+	cm=uDeger/29/2; // cm cinsine çevirmek için gerekli matematiksel işlem
+	
+ 
+ 
+	Serial.print(analogRead(xPin));
+    Serial.print ("---"); 
+ 
+ 
+	servoDeger=analogRead(xPin); /*   Joystick'den aldıgımız veri ile servo kontolü */
+	servoDeger=map(servoDeger,0,1023,0,180);
+ 
+	myservo.write(servoDeger);
+	delay(15);
+	lcd.print(cm); // lcd ye uzaklığı cm cinsinden yazdırıyoruz
+        lcd.clear(); // her deger okuduktan sonra lcd yi temizliyoruz.
+ 
+ 
+ 
+ 
+}
